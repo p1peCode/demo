@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 public class LoanService {
 
     private final UserIncomeService userIncomeService;
-    private CarRepository carRepository;
+    private final CarRepository carRepository;
 
     private Car car;
 
@@ -18,8 +18,9 @@ public class LoanService {
     private int minIncome;
 
     @Autowired
-    public LoanService(UserIncomeService userIncomeService) {
+    public LoanService(UserIncomeService userIncomeService, CarRepository carRepository) {
         this.userIncomeService = userIncomeService;
+        this.carRepository = carRepository;
     }
 
     public int approveLoan(int userId) {
