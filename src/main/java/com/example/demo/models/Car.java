@@ -17,9 +17,17 @@ public class Car {
     @Column
     private String series;
 
-    public Car(String model, String series) {
+    @Column
+    private int price;
+
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public Car(String model, String series, int price) {
         this.model = model;
         this.series = series;
+        this.price = price;
     }
 
     public Car() {
@@ -28,10 +36,6 @@ public class Car {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getModel() {
@@ -48,6 +52,18 @@ public class Car {
 
     public void setSeries(String series) {
         this.series = series;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 
     @Override

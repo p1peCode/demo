@@ -1,41 +1,44 @@
 package com.example.demo;
 
 import com.example.demo.models.Car;
+import com.example.demo.models.User;
 import com.example.demo.repositories.CarRepository;
+import com.example.demo.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-
-import java.util.Arrays;
-import java.util.List;
+import org.springframework.web.client.RestTemplate;
 
 @Component
 public class DataLoader implements CommandLineRunner {
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Autowired
     private CarRepository carRepository;
 
     @Override
     public void run(String... args) throws Exception {
-        loadCars();
+        loadCarsAndUsers();
     }
 
-    private void loadCars() {
-        List<Car> cars = Arrays.asList(
-                new Car("Model1", "Series1"),
-                new Car("Model2", "Series2"),
-                new Car("Model3", "Series3"),
-                new Car("Model4", "Series4"),
-                new Car("Model5", "Series5"),
-                new Car("Model6", "Series6"),
-                new Car("Model7", "Series7"),
-                new Car("Model8", "Series8"),
-                new Car("Model9", "Series9"),
-                new Car("Model10", "Series10"),
-                new Car("Model11", "Series11")
+    private void loadCarsAndUsers() {
+        RestTemplate restTemplate = new RestTemplate();
+        User[] usersIncome = restTemplate.getForObject("https://66055cd12ca9478ea1801f2e.mockapi.io/api/users/income", User[].class);
 
-        );
+        for (int i = usersIncome.length; i > 0; i--) {
+            User user = new User();
+            user.setName("User" + usersIncome[i-1].getId());
+            user.setIncome(usersIncome[i-1].getIncome());
+            userRepository.save(user);
+        }
 
-        carRepository.saveAll(cars);
+        Car car1 = new Car();
+        car1.setModel("Model1");
+        car1.setSeries("Series1");
+        car1.setPrice(5_000_000);
+        car1.setUser(usersIncome[1]);
+        carRepository.save(car1);
     }
 }

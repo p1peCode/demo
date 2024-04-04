@@ -4,10 +4,11 @@ import com.example.demo.models.Car;
 import com.example.demo.repositories.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class CarService {
@@ -27,11 +28,11 @@ public class CarService {
     }
 
     public List<Car> getCars(int count) {
-        List<Car> cars = getCarsFromDb();
-        if (count <= 0 || count>= maxCars) {
-            return cars;
+        if (count == 0 || count >= maxCars) {
+            return getCarsFromDb();
         } else {
-            return cars.stream().limit(count).collect(Collectors.toList());
+            Pageable pageable = PageRequest.of(0, count);
+            return carRepository.findAll(pageable).toList();
         }
     }
 }
