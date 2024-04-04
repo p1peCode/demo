@@ -29,7 +29,7 @@ public class LoanService {
         } else {
             int carCost = carRepository.findByUserId(userId).getPrice();
             int maxLoanFromCar = (int) (carCost * 0.3);
-            return Math.min(maxLoanFromCar, userIncome / 2);
+            return maxLoanFromCar;
         }
     }
 }

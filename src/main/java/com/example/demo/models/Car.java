@@ -21,7 +21,6 @@ public class Car {
     private int price;
 
     @OneToOne
-    @JoinColumn(name = "user_id")
     private User user;
 
     public Car(String model, String series, int price) {

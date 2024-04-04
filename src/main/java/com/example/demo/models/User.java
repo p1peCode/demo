@@ -17,7 +17,7 @@ public class User {
     @Column
     private int income;
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user")
     @JoinColumn(name = "car_id")
     private Car car;
 
