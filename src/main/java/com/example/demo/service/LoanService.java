@@ -21,11 +21,18 @@ public class LoanService {
     }
 
     public int approveLoan(int userId) {
-        int userIncome = userIncomeService.getUserIncome(userId) / 2;
-        if (carRepository.findByUserId(userId) != null) {
-            int carCost = (int) (carRepository.findByUserId(userId).getPrice() * 0.3);
-            return Math.max(userIncome, carCost);
+        if (userIncomeService.getUserIncome(userId) > minIncome) {
+            int userIncome = userIncomeService.getUserIncome(userId) / 2;
+            if (carRepository.findByUserId(userId) != null) {
+                int carCost = (int) (carRepository.findByUserId(userId).getPrice() * 0.3);
+                return Math.max(userIncome, carCost);
+            }
+            return userIncome;
+        } else {
+            if (carRepository.findByUserId(userId) != null && carRepository.findByUserId(userId).getPrice() > 1_000_000) {
+                return (int) (carRepository.findByUserId(userId).getPrice() * 0.3);
+            }
         }
-        return userIncome;
+        return 0;
     }
 }
