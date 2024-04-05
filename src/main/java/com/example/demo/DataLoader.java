@@ -19,7 +19,7 @@ public class DataLoader implements CommandLineRunner {
     private CarRepository carRepository;
 
     @Override
-    public void run(String... args) throws Exception {
+    public void run(String... args) {
         loadCarsAndUsers();
     }
 
@@ -31,6 +31,7 @@ public class DataLoader implements CommandLineRunner {
             User user = new User();
             user.setName("User" + usersIncome[i-1].getId());
             user.setIncome(usersIncome[i-1].getIncome());
+            user.setId(usersIncome[i-1].getId());
             userRepository.save(user);
         }
 
@@ -40,5 +41,12 @@ public class DataLoader implements CommandLineRunner {
         car1.setPrice(5_000_000);
         car1.setUser(usersIncome[1]);
         carRepository.save(car1);
+
+        Car car2 = new Car();
+        car2.setModel("Model2");
+        car2.setSeries("Series2");
+        car2.setPrice(503_000);
+        car2.setUser(usersIncome[5]);
+        carRepository.save(car2);
     }
 }

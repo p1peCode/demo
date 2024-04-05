@@ -23,14 +23,7 @@ public class Car {
     @OneToOne
     private User user;
 
-    public Car(String model, String series, int price) {
-        this.model = model;
-        this.series = series;
-        this.price = price;
-    }
-
     public Car() {
-
     }
 
     public int getId() {
@@ -67,7 +60,7 @@ public class Car {
 
     @Override
     public String toString() {
-        return "Car|" +
+        return "Car{" +
                 "id=" + id +
                 ", model='" + model + '\'' +
                 ", series='" + series + '\'' +
