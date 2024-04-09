@@ -1,9 +1,8 @@
 package com.example.demo.service;
 
-import com.example.demo.properties.LoanConfig;
-import com.example.demo.repositories.CarRepository;
+import com.example.demo.property.LoanProperties;
+import com.example.demo.repository.CarRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -12,19 +11,22 @@ public class LoanService {
 
     private final UserIncomeService userIncomeService;
     private final CarRepository carRepository;
-
-    @Autowired
-    private final LoanConfig loanConfig;
+    private final LoanProperties loanProperties;
 
     public int approveLoan(int userId) {
         int userIncome = userIncomeService.getUserIncome(userId);
-        int delimeter = loanConfig.getDelimeterOfUserIncome();
-        int minIncome = loanConfig.getMinIncome();
-        int minimalCostOfCar = loanConfig.getMinimalCostOfCar();
-        float maxCoefficientOfLoanOnCar = loanConfig.getMaxCoefficientOfLoanOnCar();
+        int delimeter = loanProperties.getDelimeterOfUserIncome();
+        int minIncome = loanProperties.getMinIncome();
+        int minimalCostOfCar = loanProperties.getMinimalCostOfCar();
+        float maxCoefficientOfLoanOnCar = loanProperties.getMaxCoefficientOfLoanOnCar();
 
         if (userIncome < minIncome && carRepository.findByUserId(userId).getPrice() < minimalCostOfCar) {
             return 0;
+        }
+
+        int costOfCar = carRepository.findByUserId(userId).getPrice();
+        if (userIncome < minIncome && costOfCar > minimalCostOfCar) {
+            return (int) (costOfCar * 0.3);
         }
 
         if (carRepository.findByUserId(userId) != null) {

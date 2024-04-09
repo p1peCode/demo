@@ -1,4 +1,4 @@
-package com.example.demo.properties;
+package com.example.demo.property;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 @ConfigurationProperties(prefix = "loan")
-public class LoanConfig {
+public class LoanProperties {
 
     private int minIncome;
     private float maxCoefficientOfLoanOnCar;

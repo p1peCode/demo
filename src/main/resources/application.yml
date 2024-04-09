@@ -9,7 +9,8 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
-maxCars: 10
+cars:
+    max-Cars: 10
 loan:
     min-income: 40000
     delimeter-of-user-income: 2
