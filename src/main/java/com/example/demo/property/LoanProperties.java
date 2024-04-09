@@ -12,5 +12,5 @@ public class LoanProperties {
     private int minIncome;
     private float maxCoefficientOfLoanOnCar;
     private int minimalCostOfCar;
-    private int delimeterOfUserIncome;
+    private int userIncomeDivisor;
 }

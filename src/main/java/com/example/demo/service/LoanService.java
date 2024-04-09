@@ -15,24 +15,23 @@ public class LoanService {
 
     public int approveLoan(int userId) {
         int userIncome = userIncomeService.getUserIncome(userId);
-        int delimeter = loanProperties.getDelimeterOfUserIncome();
+        int divisor = loanProperties.getUserIncomeDivisor();
         int minIncome = loanProperties.getMinIncome();
         int minimalCostOfCar = loanProperties.getMinimalCostOfCar();
         float maxCoefficientOfLoanOnCar = loanProperties.getMaxCoefficientOfLoanOnCar();
+        int costOfCar = carRepository.findByUserId(userId).getPrice();
 
-        if (userIncome < minIncome && carRepository.findByUserId(userId).getPrice() < minimalCostOfCar) {
+        if (userIncome < minIncome && costOfCar < minimalCostOfCar) {
             return 0;
         }
 
-        int costOfCar = carRepository.findByUserId(userId).getPrice();
         if (userIncome < minIncome && costOfCar > minimalCostOfCar) {
             return (int) (costOfCar * 0.3);
         }
 
         if (carRepository.findByUserId(userId) != null) {
-            int priceOfCar = carRepository.findByUserId(userId).getPrice();
-            return (int) Math.max((userIncome / delimeter), (priceOfCar * maxCoefficientOfLoanOnCar));
+            return (int) Math.max((userIncome / divisor), (costOfCar * maxCoefficientOfLoanOnCar));
         }
-        return userIncome / delimeter;
+        return userIncome / divisor;
     }
 }
