@@ -30,7 +30,6 @@ public class DataLoader implements CommandLineRunner {
         for (int i = usersIncome.length; i > 0; i--) {
             User user = new User();
             user.setName("User" + usersIncome[i-1].getId());
-            user.setIncome(usersIncome[i-1].getIncome());
             user.setId(usersIncome[i-1].getId());
             userRepository.save(user);
         }

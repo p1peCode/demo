@@ -1,38 +1,36 @@
 package com.example.demo.service;
 
+import com.example.demo.properties.LoanConfig;
 import com.example.demo.repositories.CarRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
+@AllArgsConstructor
 public class LoanService {
 
     private final UserIncomeService userIncomeService;
     private final CarRepository carRepository;
 
-    @Value("${minIncome}")
-    private int minIncome;
-
     @Autowired
-    public LoanService(UserIncomeService userIncomeService, CarRepository carRepository) {
-        this.userIncomeService = userIncomeService;
-        this.carRepository = carRepository;
-    }
+    private final LoanConfig loanConfig;
 
     public int approveLoan(int userId) {
-        if (userIncomeService.getUserIncome(userId) > minIncome) {
-            int userIncome = userIncomeService.getUserIncome(userId) / 2;
-            if (carRepository.findByUserId(userId) != null) {
-                int carCost = (int) (carRepository.findByUserId(userId).getPrice() * 0.3);
-                return Math.max(userIncome, carCost);
-            }
-            return userIncome;
-        } else {
-            if (carRepository.findByUserId(userId) != null && carRepository.findByUserId(userId).getPrice() > 1_000_000) {
-                return (int) (carRepository.findByUserId(userId).getPrice() * 0.3);
-            }
+        int userIncome = userIncomeService.getUserIncome(userId);
+        int delimeter = loanConfig.getDelimeterOfUserIncome();
+        int minIncome = loanConfig.getMinIncome();
+        int minimalCostOfCar = loanConfig.getMinimalCostOfCar();
+        float maxCoefficientOfLoanOnCar = loanConfig.getMaxCoefficientOfLoanOnCar();
+
+        if (userIncome < minIncome && carRepository.findByUserId(userId).getPrice() < minimalCostOfCar) {
+            return 0;
         }
-        return 0;
+
+        if (carRepository.findByUserId(userId) != null) {
+            int priceOfCar = carRepository.findByUserId(userId).getPrice();
+            return (int) Math.max((userIncome / delimeter), (priceOfCar * maxCoefficientOfLoanOnCar));
+        }
+        return userIncome / delimeter;
     }
 }

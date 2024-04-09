@@ -1,8 +1,10 @@
 package com.example.demo.models;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 @Entity
+@Data
 @Table(name = "users")
 public class User {
 
@@ -13,45 +15,7 @@ public class User {
     @Column
     private String name;
 
-    @Column
-    private int income;
-
     @OneToOne(mappedBy = "user")
     @JoinColumn(name = "car_id")
     private Car car;
-
-    public User() {
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getIncome() {
-        return income;
-    }
-
-    public void setIncome(int income) {
-        this.income = income;
-    }
-
-    public Car getCar() {
-        return car;
-    }
-
-    public void setCar(Car car) {
-        this.car = car;
-    }
 }

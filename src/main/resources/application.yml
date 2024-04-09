@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: SpringBootApp
+  datasource:
+    url: jdbc:postgresql://localhost:5432/boot
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+maxCars: 10
+loan:
+    min-income: 40000
+    delimeter-of-user-income: 2
+    max-coefficient-of-loan-on-car: 0.3
+    minimal-cost-of-car: 1000000
+server:
+    port: 8080
