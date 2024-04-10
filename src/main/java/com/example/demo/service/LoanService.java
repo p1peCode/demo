@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 @AllArgsConstructor
 public class LoanService {
 
-
+    private final UserIncomeService userIncomeService;
     private final CarRepository carRepository;
     private final LoanProperties loanProperties;
     public int approveLoan(int userId) {
-        //int userIncome = userIncomeService.getUserIncome(userId);
+        int userIncome = userIncomeService.getUserIncome(userId);
         int divisor = loanProperties.getUserIncomeDivisor();
         int minIncome = loanProperties.getMinIncome();
         int minimalCostOfCar = loanProperties.getMinimalCostOfCar();

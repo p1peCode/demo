@@ -51,11 +51,6 @@
 			<version>1.18.32</version>
 			<scope>provided</scope>
 		</dependency>
-		<dependency>
-			<groupId>com.example</groupId>
-			<artifactId>income-spring-boot-starter</artifactId>
-			<version></version>
-		</dependency>
 	</dependencies>
 
 	<build>
