@@ -51,6 +51,11 @@
 			<version>1.18.32</version>
 			<scope>provided</scope>
 		</dependency>
+		<dependency>
+			<groupId>com.example</groupId>
+			<artifactId>income-spring-boot-starter</artifactId>
+			<version></version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -62,6 +67,10 @@
 		</plugins>
 	</build>
 	<repositories>
+		<repository>
+			<id>central</id>
+			<url>file:///C:/Users/valer/.m2/repository</url>
+		</repository>
 		<repository>
 			<id>spring-milestones</id>
 			<name>Spring Milestones</name>
